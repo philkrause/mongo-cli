@@ -15,8 +15,6 @@ func main() {
 	TokenKEY, _ := os.LookupEnv("MONGO_KEY")
 	GroupID, _ := os.LookupEnv("MONGO_GROUP_ID")
 	URL := `https://cloud.mongodb.com/api/atlas/v1.0/groups/` + GroupID + `/clusters/HarmonyProd/snapshots`
-	// currentDate := time.Now()
-	// TODAY := currentDate.Format("2006-01-02 15:04:05")
 
 	t := digest.NewTransport(TokenUN, TokenKEY)
 	req, err := http.NewRequest("GET", URL, nil)
@@ -38,9 +36,9 @@ func main() {
 
 	for i := 0; i <= len(data.Results)-1; i++ {
 		if data.Results[i].Complete != true {
-			fmt.Println("There was a failed backup on Cluster: ", data.Results[i].ID, "@", data.Results[i].Created.Date)
+			fmt.Println("There was a failed backup on Cluster: ", data.Results[i].ID, "@", data.Results[i].Created.Date.Format("2016-01-02 15:05:05"))
 		} else {
-			fmt.Println(data.Results[i].ID, ": Backup was completed on ", data.Results[i].Created.Date)
+			fmt.Println("Backup was completed @ ", data.Results[i].Created.Date.Format("2006-01-02 15:04:05 "), "ID:", data.Results[i].ID)
 		}
 	}
 
